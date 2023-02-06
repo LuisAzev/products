@@ -81,6 +81,10 @@ public class ProductService {
      */
     @Transactional
     public GetProductDto createProduct(PostProductDto dto) {
+        destinyRepository.findById(dto.getDestinyId() )
+                .orElseThrow(()-> new EntityNotFoundException());
+        providerRepository.findById(dto.getProviderId() )
+                .orElseThrow(()->new EntityNotFoundException());
         Destiny destiny = destinyRepository.getReferenceById(dto.getDestinyId());
         Provider provider = providerRepository.getReferenceById(dto.getProviderId());
         Product entity = productMapper.postProductDtoToEntity(provider,dto,destiny);
@@ -100,6 +104,10 @@ public class ProductService {
         productRepository.findById( dto.getId() )
                 .orElseThrow(() -> new EntityNotFoundException());
 
+        destinyRepository.findById(dto.getDestinyId() )
+                .orElseThrow(()-> new EntityNotFoundException());
+        providerRepository.findById(dto.getProviderId() )
+                .orElseThrow(()->new EntityNotFoundException());
         Destiny destiny = destinyRepository.getReferenceById(dto.getDestinyId());
         Provider provider = providerRepository.getReferenceById(dto.getProviderId());
         Product entity = productMapper.putDtoToEntity(provider,dto,destiny);
